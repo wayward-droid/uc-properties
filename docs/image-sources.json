@@ -1,0 +1,80 @@
+[
+  {
+    "classification": "architectural rendering (visual assessment)",
+    "rights": "Published on the company website; footer states All Rights Reserved at UC Properties Limited. Source provenance is verified; independent copyright ownership or third-party licensing has not been verified.",
+    "original_image_url": "https://ucpropertiesltd.com/images/ucpropertiesltd.com/sliders/home/0d285208c4b58e793ab9c476f8efcf68.png",
+    "source_page_url": "https://ucpropertiesltd.com/",
+    "verified_association": "Company homepage hero; no estate association published beside image",
+    "note": "Recommended ready-to-use hero: detached modern residence on right; existing dark teal gradient baked into raster.",
+    "dimensions": [
+      1920,
+      980
+    ],
+    "project_path": "assets/images/hero.png"
+  },
+  {
+    "classification": "architectural rendering (visual assessment)",
+    "rights": "Published on the company website; footer states All Rights Reserved at UC Properties Limited. Source provenance is verified; independent copyright ownership or third-party licensing has not been verified.",
+    "original_image_url": "https://ucpropertiesltd.com/images/ucpropertiesltd.com/estate//picture/6d7ac2ddffb0f71a49d3701335bce5f9.jpg",
+    "source_page_url": "https://ucpropertiesltd.com/projects",
+    "verified_association": "Villa Valoré estate listing image, linked to projects/skyline-exclusive-city",
+    "note": "Exact card on company projects listing; no prototype attribution asserted.",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "project_path": "assets/images/villa-valore-estate.jpg"
+  },
+  {
+    "classification": "architectural rendering (visual assessment)",
+    "rights": "Published on the company website; footer states All Rights Reserved at UC Properties Limited. Source provenance is verified; independent copyright ownership or third-party licensing has not been verified.",
+    "original_image_url": "https://ucpropertiesltd.com/images/ucpropertiesltd.com/estates/prototypes/d53d48de83b302971162565efbdb5583.png",
+    "source_page_url": "https://ucpropertiesltd.com/projects/addis-city",
+    "verified_association": "Addis City; 2 BEDROOM TERRACE DUPLEX, prototype /1540",
+    "note": "Exact estate listing image; also associated with named prototype on estate page.",
+    "dimensions": [
+      1000,
+      600
+    ],
+    "project_path": "assets/images/addis-city-estate.png"
+  },
+  {
+    "classification": "architectural rendering (visual assessment)",
+    "rights": "Published on the company website; footer states All Rights Reserved at UC Properties Limited. Source provenance is verified; independent copyright ownership or third-party licensing has not been verified.",
+    "original_image_url": "https://ucpropertiesltd.com/images/ucpropertiesltd.com/estates/prototypes/e395ff68764762cf0b8f3914f9d7e9e4.png",
+    "source_page_url": "https://ucpropertiesltd.com/projects/down-town-golf-resort",
+    "verified_association": "Down Town Golf Resort; 2 BEDROOM 6 UNITS BLOCK OF FLATS, prototype /1445",
+    "note": "Exact estate listing image; also associated with named prototype on estate page.",
+    "dimensions": [
+      1000,
+      600
+    ],
+    "project_path": "assets/images/down-town-golf-estate.png"
+  },
+  {
+    "classification": "architectural rendering (visual assessment)",
+    "rights": "Published on the company website; footer states All Rights Reserved at UC Properties Limited. Source provenance is verified; independent copyright ownership or third-party licensing has not been verified.",
+    "original_image_url": "https://ucpropertiesltd.com/images/ucpropertiesltd.com/estates/prototypes/00cd3232f11c9f73f1878029c06a55b2.jpg",
+    "source_page_url": "https://ucpropertiesltd.com/projects/skyline-exclusive-city",
+    "verified_association": "Villa Valoré; 5 BEDROOM FULLY DETACHED, prototype /1904",
+    "note": "Direct association on estate page.",
+    "dimensions": [
+      1000,
+      600
+    ],
+    "project_path": "assets/images/villa-valore-5bed-detached.jpg"
+  },
+  {
+    "classification": "architectural rendering (visual assessment)",
+    "rights": "Published on the company website; footer states All Rights Reserved at UC Properties Limited. Source provenance is verified; independent copyright ownership or third-party licensing has not been verified.",
+    "original_image_url": "https://ucpropertiesltd.com/images/ucpropertiesltd.com/estates/prototypes/a950cb26d1a5a14a8269851eb76dec8b.png",
+    "source_page_url": "https://ucpropertiesltd.com/projects/down-town-golf-resort",
+    "verified_association": "Down Town Golf Resort; 5 BEDROOM FULLY DETACHED PENTHOUSE WITH BQ, prototype /1444",
+    "note": "Direct association on estate page.",
+    "dimensions": [
+      1000,
+      600
+    ],
+    "project_path": "assets/images/down-town-golf-5bed-penthouse.png"
+  }
+]

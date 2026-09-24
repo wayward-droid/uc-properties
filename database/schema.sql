@@ -1,0 +1,52 @@
+-- Import into an empty MySQL 8+ / MariaDB 10.4+ database in phpMyAdmin.
+CREATE DATABASE IF NOT EXISTS uc_properties CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE uc_properties;
+CREATE TABLE settings (setting_key VARCHAR(80) PRIMARY KEY, setting_value TEXT NOT NULL) ENGINE=InnoDB;
+CREATE TABLE admins (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(120) NOT NULL, email VARCHAR(190) NOT NULL UNIQUE, password_hash VARCHAR(255) NOT NULL, active TINYINT(1) NOT NULL DEFAULT 1, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB;
+CREATE TABLE locations (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(150) NOT NULL, description TEXT, cover_image VARCHAR(255), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB;
+CREATE TABLE estates (
+ id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, location_id INT UNSIGNED NOT NULL, name VARCHAR(180) NOT NULL, slug VARCHAR(190) NOT NULL UNIQUE,
+ summary VARCHAR(500) NOT NULL, description TEXT NOT NULL, address VARCHAR(255), category ENUM('land','home','mixed') NOT NULL DEFAULT 'land',
+ availability ENUM('enquire','available','sold_out','coming_soon') NOT NULL DEFAULT 'enquire', development_status VARCHAR(255) NOT NULL DEFAULT 'Contact the team for the latest development status.',
+ amenities TEXT, documentation TEXT, cover_image VARCHAR(255), image_kind ENUM('rendering','photograph') NOT NULL DEFAULT 'rendering', brochure VARCHAR(255),
+ latitude DECIMAL(10,7) NULL, longitude DECIMAL(10,7) NULL, featured TINYINT(1) NOT NULL DEFAULT 0, published TINYINT(1) NOT NULL DEFAULT 0,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ FOREIGN KEY(location_id) REFERENCES locations(id) ON DELETE RESTRICT, INDEX(published,location_id), INDEX(availability)
+) ENGINE=InnoDB;
+CREATE TABLE property_options (
+ id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, estate_id INT UNSIGNED NOT NULL, name VARCHAR(180) NOT NULL, size_sqm DECIMAL(10,2) NOT NULL,
+ kind ENUM('land','home') NOT NULL DEFAULT 'land', bedrooms SMALLINT UNSIGNED NULL, availability ENUM('enquire','available','sold_out','coming_soon') NOT NULL DEFAULT 'enquire',
+ outright_price DECIMAL(15,2) NULL, instalment_total DECIMAL(15,2) NULL, deposit DECIMAL(15,2) NULL, duration_months SMALLINT UNSIGNED NULL,
+ payment_schedule TEXT, additional_charges TEXT, price_includes TEXT, price_verified TINYINT(1) NOT NULL DEFAULT 0, price_updated DATE NULL,
+ published TINYINT(1) NOT NULL DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ FOREIGN KEY(estate_id) REFERENCES estates(id) ON DELETE CASCADE, INDEX(estate_id,published), INDEX(size_sqm,outright_price)
+) ENGINE=InnoDB;
+CREATE TABLE prototypes (
+ id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(180) NOT NULL, slug VARCHAR(190) NOT NULL UNIQUE, bedrooms SMALLINT UNSIGNED NOT NULL,
+ bathrooms SMALLINT UNSIGNED NULL, description TEXT NOT NULL, specifications TEXT, offer_includes TEXT NOT NULL, cover_image VARCHAR(255), floor_plan VARCHAR(255),
+ published TINYINT(1) NOT NULL DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+CREATE TABLE compatibility (
+ id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, option_id INT UNSIGNED NOT NULL, prototype_id INT UNSIGNED NOT NULL, approved TINYINT(1) NOT NULL DEFAULT 0,
+ notes TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UNIQUE(option_id,prototype_id),
+ FOREIGN KEY(option_id) REFERENCES property_options(id) ON DELETE CASCADE, FOREIGN KEY(prototype_id) REFERENCES prototypes(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+CREATE TABLE media (
+ id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, estate_id INT UNSIGNED NULL, prototype_id INT UNSIGNED NULL, path VARCHAR(255) NOT NULL, alt VARCHAR(255) NOT NULL,
+ kind ENUM('rendering','photograph','floor_plan','brochure') NOT NULL DEFAULT 'rendering', sort_order INT NOT NULL DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY(estate_id) REFERENCES estates(id) ON DELETE CASCADE, FOREIGN KEY(prototype_id) REFERENCES prototypes(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+CREATE TABLE requests (
+ id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, reference VARCHAR(24) NOT NULL UNIQUE, type ENUM('enquiry','inspection') NOT NULL,
+ estate_id INT UNSIGNED NULL, option_id INT UNSIGNED NULL, prototype_id INT UNSIGNED NULL,
+ name VARCHAR(120) NOT NULL, phone VARCHAR(30) NOT NULL, email VARCHAR(190), preferred_date DATE NULL, visit_preference ENUM('in_person','virtual','call') NULL,
+ message TEXT, status ENUM('New','Contacted','Scheduled','Completed','Cancelled') NOT NULL DEFAULT 'New', internal_notes TEXT,
+ consent_at DATETIME NOT NULL, notification_status ENUM('disabled','sent','failed') NOT NULL DEFAULT 'disabled', is_demo TINYINT(1) NOT NULL DEFAULT 0,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ FOREIGN KEY(estate_id) REFERENCES estates(id) ON DELETE SET NULL, FOREIGN KEY(option_id) REFERENCES property_options(id) ON DELETE SET NULL,
+ FOREIGN KEY(prototype_id) REFERENCES prototypes(id) ON DELETE SET NULL, INDEX(status,created_at), INDEX(is_demo,type)
+) ENGINE=InnoDB;
+CREATE TABLE faqs (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, question VARCHAR(255) NOT NULL, answer TEXT NOT NULL, sort_order INT NOT NULL DEFAULT 0, published TINYINT(1) NOT NULL DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) ENGINE=InnoDB;
+CREATE TABLE articles (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, title VARCHAR(180) NOT NULL, slug VARCHAR(190) NOT NULL UNIQUE, category ENUM('Project update','Guide','News') NOT NULL DEFAULT 'Project update', summary VARCHAR(500) NOT NULL, body TEXT NOT NULL, cover_image VARCHAR(255), published TINYINT(1) NOT NULL DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) ENGINE=InnoDB;
+CREATE TABLE testimonials (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(120) NOT NULL, attribution VARCHAR(180), quote TEXT NOT NULL, approved TINYINT(1) NOT NULL DEFAULT 0, published TINYINT(1) NOT NULL DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) ENGINE=InnoDB;
+CREATE TABLE rate_limits (bucket CHAR(64) PRIMARY KEY, window_start DATETIME NOT NULL, hits INT UNSIGNED NOT NULL DEFAULT 0, INDEX(window_start)) ENGINE=InnoDB;

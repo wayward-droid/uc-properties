@@ -1,0 +1,8 @@
+Options -Indexes -ExecCGI
+<FilesMatch "\.(php[0-9]?|phtml|phar|cgi|pl|py|sh|html|htm|svg)$">
+    Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set Content-Security-Policy "default-src 'none'; sandbox"
+</IfModule>
